@@ -130,13 +130,7 @@ TimelineObserver.prototype.handleStatus = function (node) {
     }
   }
 
-  var imageAnchors = [];
-  var anchors = node.querySelectorAll('a');
-  anchors.forEach(function (item) {
-    if (item.style.backgroundImage && item.style.backgroundImage !== "") {
-      imageAnchors.push(item);
-    }
-  });
+  var imageAnchors = node.querySelectorAll('a.media-gallery__item-thumbnail');
 
   /* comment out until the performance issue gets solved
   var videoContainer = null;
@@ -165,10 +159,11 @@ TimelineObserver.prototype.handleStatus = function (node) {
     return icon.parentNode;
   }
   
-  var statusLink = node.querySelector('a.status__relative-time');
   var boostButton = findBoostButton(node);
   var favouriteButton = findFavButton(node);
 
+  var statusLink = node.querySelector('a.status__relative-time');
+  if (statusLink == null) statusLink = node.querySelector('a.status__time'); // for pawoo.net
   var pathname = statusLink.pathname;
   var pathnameComponents = pathname.split('/');
   if (pathnameComponents.length < 3) return;
@@ -261,6 +256,7 @@ TimelineObserver.prototype.handleRemoval = function (node) {
 
 TimelineObserver.prototype.handleStatusRemoval = function (node) {
   var statusLink = node.querySelector('a.status__relative-time');
+  if (statusLink == null) statusLink = node.querySelector('a.status__time'); // for pawoo.net
   if (statusLink == null) return;
 
   var id = statusLink.pathname;
