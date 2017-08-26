@@ -165,7 +165,8 @@ TimelineObserver.prototype.handleStatus = function (node) {
     return icon.parentNode;
   }
   
-  var statusLink = node.querySelector('a.status__time');
+  var statusLink = node.querySelector('a.status__relative-time');
+  if (statusLink == null) statusLink = node.querySelector('a.status__time'); // for pawoo.net
   var boostButton = findBoostButton(node);
   var favouriteButton = findFavButton(node);
 
@@ -260,6 +261,7 @@ TimelineObserver.prototype.handleRemoval = function (node) {
 
 TimelineObserver.prototype.handleStatusRemoval = function (node) {
   var statusLink = node.querySelector('a.status__relative-time');
+  if (statusLink == null) statusLink = node.querySelector('a.status__time'); // for pawoo.net
   if (statusLink == null) return;
 
   var id = statusLink.pathname;
